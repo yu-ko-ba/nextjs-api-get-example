@@ -15,8 +15,12 @@ const Home: NextPage = ({ coffees }) => {
       <Grid container spacing={9} justifyContent="center">
         {coffees.map((coffee: Coffee) => (
           <Grid item>
-            <Image src={coffee.image} width={300} height={225} />
-            <p>{coffee.title}</p>
+            <Link href={coffee.title}>
+              <a>
+                <Image src={coffee.image} width={300} height={225} />
+                <p>{coffee.title}</p>
+              </a>
+            </Link>
           </Grid>
         ))}
       </Grid>

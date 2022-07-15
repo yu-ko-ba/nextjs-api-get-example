@@ -2,6 +2,21 @@ import axios from "axios"
 import Coffee from '../../types/Coffee'
 
 export default async function handler(req, res) {
+  const coffees = await fetchCoffees()
+  const { q } = req.query
+  if (q) {
+    const result = coffees.find(query => query.title === q)
+    if (result) {
+      res.status(200).json(result)
+    } else {
+      res.status(200).json({})
+    }
+  } else {
+    res.status(200).json(coffees)
+  }
+}
+
+const fetchCoffees = async () => {
   const hotCoffees = await axios.get<Coffee[]>("https://api.sampleapis.com/coffee/hot")
     .then((res) => {
       return res.data
@@ -21,5 +36,5 @@ export default async function handler(req, res) {
       }
     })
 
-  res.status(200).json(coffees)
+  return coffees
 }
