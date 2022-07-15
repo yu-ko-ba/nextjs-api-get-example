@@ -9,7 +9,7 @@ const Home: NextPage = ({ coffees }) => {
   return (
     <>
       <Head>
-        <title>API Request Sample</title>
+        <title>Next.js API GET Example</title>
       </Head>
       <Grid container spacing={9} sx={{ display: "flex", justifyContent: "center" }}>
         {coffees.map((coffee: Coffee) => (
