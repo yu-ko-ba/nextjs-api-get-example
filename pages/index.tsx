@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import axios from 'axios'
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -18,7 +18,7 @@ const Home: NextPage = ({ coffees }) => {
             <Link href={coffee.title}>
               <a>
                 <Image src={coffee.image} width={300} height={225} />
-                <p>{coffee.title}</p>
+                <Typography>{coffee.title}</Typography>
               </a>
             </Link>
           </Grid>

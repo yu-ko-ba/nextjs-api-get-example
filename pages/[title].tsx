@@ -1,11 +1,19 @@
+import { Box, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { Head } from "next/document"
+import Image from "next/image";
 import Coffee from "../types/Coffee";
 
 export default function Detail({ coffee }) {
   return (
     <>
-      <h1>{coffee.title}</h1>
+      <Container maxWidth="sm">
+        <Typography variant="h3">{coffee.title}</Typography>
+        <Box textAlign="center">
+          <Image src={coffee.image} width={400} height={300}/>
+        </Box>
+        <Typography>{coffee.description}</Typography>
+      </Container>
     </>
   )
 }
