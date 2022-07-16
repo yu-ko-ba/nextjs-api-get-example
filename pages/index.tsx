@@ -1,12 +1,16 @@
 import { Grid, Typography } from '@mui/material'
 import axios from 'axios'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import Coffee from '../types/Coffee'
 
-const Home: NextPage = ({ coffees }) => {
+type HomePropsType = {
+  coffees: Coffee[]
+}
+
+const Home = ({ coffees }: HomePropsType) => {
   return (
     <>
       <Head>
@@ -14,7 +18,7 @@ const Home: NextPage = ({ coffees }) => {
       </Head>
       <Grid container spacing={9} justifyContent="center">
         {coffees.map((coffee: Coffee) => (
-          <Grid item>
+          <Grid item key={coffee.title}>
             <Link href={coffee.title}>
               <a>
                 <Image src={coffee.image} width={300} height={225} />
@@ -28,7 +32,7 @@ const Home: NextPage = ({ coffees }) => {
   )
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const host = context.req.headers.host || 'localhost:3000'
   const protocol = /^localhost/.test(host) ? 'http' : 'https'
   const coffees = await axios.get<Coffee[]>(`${protocol}://${host}/api/coffees`)

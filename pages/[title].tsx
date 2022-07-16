@@ -1,10 +1,15 @@
 import { Box, Container, Typography } from "@mui/material";
 import axios from "axios";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Coffee from "../types/Coffee";
 
-export default function Detail({ coffee }) {
+type DetailPropsType = {
+  coffee: Coffee
+}
+
+export default function Detail({ coffee }: DetailPropsType) {
   return (
     <>
       <Head>
@@ -21,10 +26,17 @@ export default function Detail({ coffee }) {
   )
 }
 
-export async function getServerSideProps({ params, req }) {
-  const host = req.headers.host || 'localhost:3000'
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const host = context.req.headers.host || 'localhost:3000'
   const protocol = /^localhost/.test(host) ? 'http' : 'https'
-  const coffee = await axios.get<Coffee>(`${protocol}://${host}/api/coffees?q=${params.title}`)
-    .then(res => res.data)
+  const coffee = await (async () => {
+    if (context.params?.title) {
+      return await axios.get<Coffee>(
+        `${protocol}://${host}/api/coffees`,
+        { params: { q: context.params.title } }
+      ).then((res) => res.data)
+    }
+    return await axios.get<Coffee>(`${protocol}://${host}/api/coffees`)
+  })()
   return {props: { coffee }}
 }

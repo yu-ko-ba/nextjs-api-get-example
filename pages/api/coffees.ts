@@ -1,7 +1,8 @@
 import axios from "axios"
+import { NextApiRequest, NextApiResponse } from "next"
 import Coffee from '../../types/Coffee'
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const coffees = await fetchCoffees()
   const { q } = req.query
   if (q) {
